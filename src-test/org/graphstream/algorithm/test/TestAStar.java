@@ -32,12 +32,10 @@ package org.graphstream.algorithm.test;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.graphstream.algorithm.AStar;
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.Path;
+import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,9 +116,9 @@ public class TestAStar {
 
 		astar.compute("A", "F");
 
-		Path path = astar.getShortestPath();
+		Route path = astar.getShortestPath();
 
-		List<Edge> edges = path.getEdgePath();
+		List<Edge> edges = path.edges().collect(Collectors.toList());
 
 		for (Edge edge : edges)
 			edge.setAttribute("color", "red");
@@ -128,12 +126,12 @@ public class TestAStar {
 		Iterator<? extends Edge> i = edges.iterator();
 
 		Edge e = i.next();
-		assertTrue(e != null);
-		assertTrue(e.getId().equals("AB"));
+		assertNotNull(e);
+		assertEquals("AB", e.getId());
 		e = i.next();
-		assertTrue(e != null);
-		assertTrue(e.getId().equals("BF"));
-		assertTrue(!i.hasNext());
+		assertNotNull(e);
+		assertEquals("BF", e.getId());
+		assertFalse(i.hasNext());
 	}
 
 	@Test
@@ -155,9 +153,9 @@ public class TestAStar {
 
 		astar.compute("A", "F");
 
-		Path path = astar.getShortestPath();
+		Route path = astar.getShortestPath();
 
-		List<Edge> edges = path.getEdgePath();
+		List<Edge> edges = path.edges().collect(Collectors.toList());
 
 		for (Edge edge : edges)
 			edge.setAttribute("color", "red");
@@ -190,9 +188,9 @@ public class TestAStar {
 
 		astar.compute("A", "F");
 
-		Path path = astar.getShortestPath();
+		Route path = astar.getShortestPath();
 
-		List<Edge> edges = path.getEdgePath();
+		List<Edge> edges = path.edges().collect(Collectors.toList());
 
 		for (Edge edge : edges)
 			edge.setAttribute("color", "red");
@@ -242,8 +240,8 @@ public class TestAStar {
 		astar.setCosts(new AStar.DistanceCosts());
 		astar.compute("A", "F");
 
-		Path path = astar.getShortestPath();
-		List<Edge> edges = path.getEdgePath();
+		Route path = astar.getShortestPath();
+		List<Edge> edges = path.edges().collect(Collectors.toList());
 
 		for (Edge edge : edges)
 			edge.setAttribute("color", "red");
@@ -287,8 +285,8 @@ public class TestAStar {
 		astar.setCosts(new AStar.DistanceCosts());
 		astar.compute("A", "F");
 
-		Path path = astar.getShortestPath();
-		List<Edge> edges = path.getEdgePath();
+		Route path = astar.getShortestPath();
+		List<Edge> edges = path.edges().collect(Collectors.toList());
 
 		for (Edge edge : edges)
 			edge.setAttribute("color", "red");
@@ -344,9 +342,9 @@ public class TestAStar {
 
 		astar.compute("A", "F");
 
-		Path path = astar.getShortestPath();
+		Route path = astar.getShortestPath();
 
-		List<Edge> edges = path.getEdgePath();
+		List<Edge> edges = path.edges().collect(Collectors.toList());
 
 		for (Edge edge : edges)
 			edge.setAttribute("color", "red");

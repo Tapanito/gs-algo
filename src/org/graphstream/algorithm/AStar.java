@@ -40,10 +40,7 @@ import java.util.HashMap;
 
 import org.graphstream.algorithm.util.Parameter;
 import org.graphstream.algorithm.util.Result;
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.Path;
+import org.graphstream.graph.*;
 
 /**
  * An implementation of the A* algorithm.
@@ -168,6 +165,8 @@ import org.graphstream.graph.Path;
  * @complexity The complexity of A* depends on the heuristic.
  */
 public class AStar implements Algorithm {
+
+	private RouteFactory<? extends Route> routeFactory = Path.pathFactory;
 	/**
 	 * The graph.
 	 */
@@ -203,7 +202,7 @@ public class AStar implements Algorithm {
 	/**
 	 * If found the shortest path is stored here.
 	 */
-	protected Path result;
+	protected Route result;
 
 	/**
 	 * Set to false if the algorithm ran, but did not found any path from the
@@ -285,6 +284,10 @@ public class AStar implements Algorithm {
 		this.costs = costs;
 	}
 
+	public void setRouteFactory(RouteFactory<? extends Route> routeFactory) {
+		this.routeFactory = routeFactory;
+	}
+
 	/*
 	 * @see
 	 * org.graphstream.algorithm.Algorithm#init(org.graphstream.graph.Graph)
@@ -320,7 +323,7 @@ public class AStar implements Algorithm {
 	 * @return The computed path, or null if no path was found.
 	 */
 	@Result
-	public Path getShortestPath() {
+	public Route getShortestPath() {
 		return result;
 	}
 
@@ -347,8 +350,8 @@ public class AStar implements Algorithm {
 	 *            The destination node.
 	 * @return The path.
 	 */
-	public Path buildPath(AStarNode target) {
-		Path path = new Path();
+	public Route buildPath(AStarNode target) {
+		Route path = routeFactory.newInstance();
 
 		ArrayList<AStarNode> thePath = new ArrayList<AStarNode>();
 		AStarNode node = target;
